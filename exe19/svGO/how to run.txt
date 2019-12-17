@@ -1,0 +1,6 @@
+Run command :
+go run main.go > imgname.svg
+
+then open image in browser
+
+that's it.....
