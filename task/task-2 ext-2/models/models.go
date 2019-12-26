@@ -12,3 +12,9 @@ type Employee struct{
 	City string `json:"city"`
 	Company string `json:"company"`
 }  
+
+type User struct {
+	Uname string   
+	Password string 
+  
+}

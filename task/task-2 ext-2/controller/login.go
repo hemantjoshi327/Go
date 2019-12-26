@@ -5,20 +5,22 @@ import (
 	"net/http"
 	"time"
 	"github.com/dgrijalva/jwt-go"
+	dao "../dao"
   )
   
   // Create the JWT key used to create the signature
   var jwtKey = []byte("my_secret_key")
   
   var users = map[string]string{
-	  "user1": "password1",
-	  "user2": "password2",
+	  "Hemant": "JJJJJ",
+	  "Harry": "PPPPP",
   }
   
   // Create a struct to read the username and password from the request body
   type Credentials struct {
-	  Password string `json:"password"`
-	  Username string `json:"username"`
+		Username string `json:"username"`  
+		Password string `json:"password"`
+	  
   }
   
   // Create a struct that will be encoded to a JWT.
@@ -35,17 +37,18 @@ import (
 		  w.WriteHeader(http.StatusBadRequest)
 		  return
 	  }
-  
-	  expectedPassword, ok := users[creds.Username]
+	  	user 
+	  	validCreds = dao.LoginValid(&creds)
+	 // expectedPassword, ok := users[creds.Username]
   
 	  if !ok || expectedPassword != creds.Password {
 		  w.WriteHeader(http.StatusUnauthorized)
 		  return
 	  }
   
-	  // here, we have kept it as 5 minutes
+	  // 5 minutes
 	  expirationTime := time.Now().Add(5 * time.Minute)
-	  // Create the JWT claims, which includes the username and expiry time
+	  // JWT claims
 	  claims := &Claims{
 		  Username: creds.Username,
 		  StandardClaims: jwt.StandardClaims{
@@ -53,12 +56,9 @@ import (
 		  },
 	  }
   
-	  // Declare the token with the algorithm used for signing, and the claims
 	  token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	  // Create the JWT string
 	  tokenString, err := token.SignedString(jwtKey)
 	  if err != nil {
-		  // If there is an error in creating the JWT return an internal server error
 		  w.WriteHeader(http.StatusInternalServerError)
 		  return
 	  }
