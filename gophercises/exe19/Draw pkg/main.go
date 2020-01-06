@@ -17,11 +17,7 @@ func main() {
 	bg := image.NewUniform(color.RGBA{240, 240, 240, 255})
 
 	draw.Draw(img, r, bg, image.Point{0, 0}, draw.Src)
-	// for y := 0; y < h; y++ {
-	// 	for x := 0; x < w; x++ {
-	// 		img.Set(x, y, color.RGBA{255, 255, 255, 255})
-	// 	}
-	// }
+
 
 	mask := image.NewRGBA(image.Rect(0, 0, w, h))
 	for y := 0; y < h; y++ {
@@ -52,11 +48,6 @@ func main() {
 		red := image.NewUniform(color.RGBA{255, 0, 0, 255})
 		draw.DrawMask(img, bar, red, image.Point{0, 0}, mask, image.Point{x0, y0}, draw.Over)
 
-		// for x := i*60 + 10; x < (i+1)*60; x++ {
-		// 	for y := 100; y >= (100 - dp); y-- {
-		// 		img.Set(x, y, color.RGBA{180, 180, 250, 255})
-		// 	}
-		// }
 	}
 
 	f, err := os.Create("image.png")
@@ -65,6 +56,7 @@ func main() {
 	}
 	defer f.Close()
 	err = png.Encode(f, img)
+
 	if err != nil {
 		panic(err)
 	}
